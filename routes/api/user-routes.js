@@ -13,6 +13,7 @@ const {
 
 
 // ROUTING
+
 router.route('/')
     .get(getAllUsers)
     .post(createUser);

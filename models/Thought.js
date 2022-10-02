@@ -16,7 +16,7 @@ const ReactionSchema = new Schema(
         },
         reactionBody: {
             type: String,
-            required: '"reactionBody" is required',
+            required: '`reactionBody` is required',
             trim: true,
             minLength: 1,
             maxLength: 280
@@ -24,7 +24,7 @@ const ReactionSchema = new Schema(
         user: {  // controllers later use `populate` to pull in the user's `username`
             type: Schema.Types.ObjectId,
             ref: 'User',
-            required: '"user" (an ObjectId) is required'
+            required: '`user` (an ObjectId) is required'
         },
         createdAt: {
             type: Date,
@@ -47,7 +47,7 @@ const ThoughtSchema = new Schema(
     {  // Fields
         thoughtText: {
             type: String,
-            required: '"thoughtText" is required',  // custom err msg
+            required: '`thoughtText` is required',  // custom err msg
             trim: true,
             minLength: 1,
             maxLength: 280
@@ -60,7 +60,7 @@ const ThoughtSchema = new Schema(
         user: {  // controllers later use `populate` to pull in the user's `username`
                 type: Schema.Types.ObjectId,
                 ref: 'User',
-                required: '"user" (an ObjectId) is required'
+                required: '`user` (an ObjectId) is required'
         },
         reactions: [ReactionSchema]
     },
