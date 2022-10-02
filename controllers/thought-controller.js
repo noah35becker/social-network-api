@@ -76,9 +76,10 @@ const thoughtController = {
                     path: 'thoughts'
                 });
 
-            console.log('***HERE: ', test);
-
-            res.json(dbThoughtData);
+            res.json({
+                message: 'Thought successfully created',
+                thought: dbThoughtData
+            });
         }catch (err){
             console.log(err);
             res.status(400).json(err);
@@ -114,7 +115,10 @@ const thoughtController = {
             if (!dbThoughtData)
                 return res.status(404).json({message: `No Thought found with an ID of ${params.id}`});
 
-            res.json(dbThoughtData);
+                res.json({
+                    message: 'Thought successfully updated',
+                    thought: dbThoughtData
+                });
         }catch (err){
             console.log(err);
             res.status(500).json(err);
@@ -137,7 +141,10 @@ const thoughtController = {
                 {new: true}
             );
 
-            res.json(dbThoughtData);
+            res.json({
+                message: 'Thought successfully deleted',
+                thought: dbThoughtData
+            });
         }catch (err){
             console.log(err);
             res.status(500).json(err);
@@ -173,7 +180,10 @@ const thoughtController = {
             if (!dbThoughtData)
                 return res.status(404).json({message: `No User found with an ID of ${params.thoughtId}`});
                 
-            res.json(dbThoughtData);
+            res.json({
+                message: 'Reaction successfully added',
+                thought: dbThoughtData
+            });
         }catch (err){
             console.log(err);
             res.status(400).json(err);
@@ -206,7 +216,10 @@ const thoughtController = {
             if (!dbThoughtData)
                 return res.status(404).json({message: `No Thought found with an ID of ${params.thoughtId}`});
                 
-            res.json(dbThoughtData);
+                res.json({
+                    message: 'Reaction successfully deleted',
+                    thought: dbThoughtData
+                });
         }catch (err){
             console.log(err);
             res.status(400).json(err);

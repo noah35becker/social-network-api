@@ -58,7 +58,10 @@ const userController = {
     async createUser({body}, res){  // `body` = {username, email}
         try{
             const dbUserData = await User.create(body);
-            res.json(dbUserData);
+            res.json({
+                message: 'User successfully created',
+                user: dbUserData
+            });
         }catch (err){
             console.log(err);
             res.status(400).json(err);
@@ -98,7 +101,10 @@ const userController = {
             if (!dbUserData)
                 return res.status(404).json({message: `No User found with an ID of ${params.id}`});
 
-            res.json(dbUserData);
+            res.json({
+                message: 'User successfully updated',
+                user: dbUserData
+            });
         }catch (err){
             console.log(err);
             res.status(500).json(err);
@@ -149,8 +155,8 @@ const userController = {
     },
 
 
-    // Add a friend to User's friends list
-    async addFriend({params}, res){
+    // Add friends to each other's friends lists
+    async mutualAddFriends({params}, res){
         try{
             const dbUserData1 = await User.findOneAndUpdate(
                 {_id: params.userId},
@@ -190,8 +196,8 @@ const userController = {
     },
 
 
-    // Remove a friend to User's friends list
-    async removeFriend({params}, res){
+    // Remove friends from each other's friends lists
+    async mutualRemoveFriends({params}, res){
         try{
             const dbUserData1 = await User.findOneAndUpdate(
                 {_id: params.userId},
