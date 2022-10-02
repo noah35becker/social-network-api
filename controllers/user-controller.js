@@ -1,6 +1,6 @@
 
 // IMPORT
-const {User} = require('../models');
+const {User, Thought} = require('../models');
 
 
 
@@ -28,7 +28,14 @@ const userController = {
                 .populate([
                     {
                         path: 'thoughts',
-                        select: '-__v -user'
+                        select: '-__v -user',
+                        populate: {
+                            path: 'reactions',
+                            populate: {
+                                path: 'user',
+                                select: '_id username'
+                            }
+                        }
                     },
                     {
                         path: 'friends',
@@ -73,7 +80,14 @@ const userController = {
                 .populate([
                     {
                         path: 'thoughts',
-                        select: '-__v -user'
+                        select: '-__v -user',
+                        populate: {
+                            path: 'reactions',
+                            populate: {
+                                path: 'user',
+                                select: '_id username'
+                            }
+                        }
                     },
                     {
                         path: 'friends',
@@ -96,10 +110,30 @@ const userController = {
     async deleteUser({params}, res){
         try{
             const dbUserData = await User.findOneAndDelete({_id: params.id})
-                .select('-__v');
+                .populate([
+                    {
+                        path: 'thoughts',
+                        select: '-__v -user',
+                        populate: {
+                            path: 'reactions',
+                            populate: {
+                                path: 'user',
+                                select: '_id username'
+                            }
+                        }
+                    },
+                    {
+                        path: 'friends',
+                        select: '_id username email'
+                    },
+                ]).select('-__v');
 
             if (!dbUserData)
                 return res.status(404).json({message: `No User found with an ID of ${params.id}`});
+
+            console.log(dbUserData.thoughts);
+
+            dbUserData.thoughts.forEach(async thought => await Thought.deleteOne({_id: thought._id}));  // also purge User's associated Thoughts from the database
 
             res.json({
                 message: 'User and all its associated Thoughts successfully deleted',

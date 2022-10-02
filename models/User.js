@@ -51,16 +51,6 @@ UserSchema.virtual('friendCount').get(function(){
 });
 
 
-// // MIDDLEWARE: Delete associated `Thought` documents when a User is deleted
-// UserSchema.pre('findOneAndDelete', function(next) {
-//     console.log(this.thoughts);
-//     this.thoughts.forEach(elem => 
-//         Thought.deleteOne({_id: elem._id})
-//     );
-//     next();
-// });
-
-
 // MONGOOSE MODEL
 const User = model('User', UserSchema);
 
