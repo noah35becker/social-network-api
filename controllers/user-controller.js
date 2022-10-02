@@ -131,12 +131,15 @@ const userController = {
             if (!dbUserData)
                 return res.status(404).json({message: `No User found with an ID of ${params.id}`});
 
-            console.log(dbUserData.thoughts);
-
             dbUserData.thoughts.forEach(async thought => await Thought.deleteOne({_id: thought._id}));  // also purge User's associated Thoughts from the database
 
+            dbUserData.friends.forEach(async friend => await User.updateOne(  // also remove User from all other Users' friends lists
+                {_id: friend._id},
+                {$pull: {friends: dbUserData._id}},
+            ));
+
             res.json({
-                message: 'User and all its associated Thoughts successfully deleted',
+                message: 'User and all its associated Thoughts successfully deleted, and User removed from all other Users\' friends lists',
                 user: dbUserData
             });
         }catch (err){
@@ -149,26 +152,37 @@ const userController = {
     // Add a friend to User's friends list
     async addFriend({params}, res){
         try{
-            const dbUserData = await User.findOneAndUpdate(
+            const dbUserData1 = await User.findOneAndUpdate(
                 {_id: params.userId},
                 {$push: {friends: params.friendId}},
                 {new: true},
             )
-                .populate([
-                    {
-                        path: 'thoughts',
-                        select: '-__v -user'
-                    },
-                    {
-                        path: 'friends',
-                        select: '_id username email'
-                    },
-                ]).select('-__v');
+                .populate({
+                    path: 'friends',
+                    select: '_id username email'
+                }).select('-__v');
 
-            if (!dbUserData)
+            if (!dbUserData1)
                 return res.status(404).json({message: `No User found with an ID of ${params.userId}`});
+
+            const dbUserData2 = await User.findOneAndUpdate(
+                {_id: params.friendId},
+                {$push: {friends: params.userId}},
+                {new: true},
+            )
+                .populate({
+                    path: 'friends',
+                    select: '_id username email'
+                }).select('-__v');
+
+            if (!dbUserData2)
+                return res.status(404).json({message: `No User found with an ID of ${params.friendId}`});
                 
-            res.json(dbUserData);
+            res.json({
+                message: 'Users are mutually added to each other\'s friend lists',
+                user1: dbUserData1,
+                user2: dbUserData2
+            });
         }catch (err){
             console.log(err);
             res.status(400).json(err);
@@ -179,26 +193,37 @@ const userController = {
     // Remove a friend to User's friends list
     async removeFriend({params}, res){
         try{
-            const dbUserData = await User.findOneAndUpdate(
+            const dbUserData1 = await User.findOneAndUpdate(
                 {_id: params.userId},
                 {$pull: {friends: params.friendId}},
                 {new: true},
             )
-                .populate([
-                    {
-                        path: 'thoughts',
-                        select: '-__v -user'
-                    },
-                    {
-                        path: 'friends',
-                        select: '_id username email'
-                    },
-                ]).select('-__v');
+                .populate({
+                    path: 'friends',
+                    select: '_id username email'
+                }).select('-__v');
 
-            if (!dbUserData)
+            if (!dbUserData1)
                 return res.status(404).json({message: `No User found with an ID of ${params.userId}`});
+
+            const dbUserData2 = await User.findOneAndUpdate(
+                {_id: params.friendId},
+                {$pull: {friends: params.userId}},
+                {new: true},
+            )
+                .populate({
+                    path: 'friends',
+                    select: '_id username email'
+                }).select('-__v');
+
+            if (!dbUserData1)
+                return res.status(404).json({message: `No User found with an ID of ${params.friendId}`});
                 
-            res.json(dbUserData);
+            res.json({
+                message: 'Users are mutually removed from each other\'s friend lists',
+                user1: dbUserData1,
+                user2: dbUserData2
+            });
         }catch (err){
             console.log(err);
             res.status(400).json(err);
