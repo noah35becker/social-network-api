@@ -155,7 +155,7 @@ const userController = {
     },
 
 
-    // Add friends to each other's friends lists
+    // Add friends to each other's friends list
     async mutualAddFriends({params}, res){
         try{
             const dbUserData1 = await User.findOneAndUpdate(
@@ -185,7 +185,7 @@ const userController = {
                 return res.status(404).json({message: `No User found with an ID of ${params.friendId}`});
                 
             res.json({
-                message: 'Users are mutually added to each other\'s friend lists',
+                message: 'Users are mutually added to each other\'s friends list',
                 user1: dbUserData1,
                 user2: dbUserData2
             });
@@ -196,7 +196,7 @@ const userController = {
     },
 
 
-    // Remove friends from each other's friends lists
+    // Remove friends from each other's friends list
     async mutualRemoveFriends({params}, res){
         try{
             const dbUserData1 = await User.findOneAndUpdate(
@@ -226,7 +226,7 @@ const userController = {
                 return res.status(404).json({message: `No User found with an ID of ${params.friendId}`});
                 
             res.json({
-                message: 'Users are mutually removed from each other\'s friend lists',
+                message: 'Users are mutually removed from each other\'s friends list',
                 user1: dbUserData1,
                 user2: dbUserData2
             });
