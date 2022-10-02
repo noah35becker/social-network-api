@@ -1,6 +1,7 @@
 
 // IMPORTS
 const {Schema, model} = require('mongoose');
+const Thought = require('./Thought');
 
 
 // SCHEMA
@@ -8,17 +9,17 @@ const UserSchema = new Schema(
     {  // Fields
         username: {
             type: String,
-            required: '"username" is required',  // custom err msg
+            required: '`username` is required',  // custom err msg
             trim: true,
             unique: true  // creates a 'unique index' for this field, i.e. not really validation per se
         },
         email: {
             type: String,
-            required: '"email" is required',
+            required: '`email` is required',
             trim: true,
             unique: true,
             lowercase: true,  // convert to lowercase before saving
-            match: [/^[a-z0-9_\.]+@[a-z0-9\.]+\.[a-z]{2,3}$/i, '"email" is invalid']
+            match: [/^[a-z0-9_\.]+@[a-z0-9\.]+\.[a-z]{2,3}$/i, '`email` is invalid']
         },
         thoughts: [
             {
@@ -43,8 +44,21 @@ const UserSchema = new Schema(
 
 // `virtual` for total count of friends, computed when a `User` document is queried
 UserSchema.virtual('friendCount').get(function(){
-    return this.friends.length;
+    if (this.friends)
+        return this.friends.length;
+    else
+        return undefined;
 });
+
+
+// // MIDDLEWARE: Delete associated `Thought` documents when a User is deleted
+// UserSchema.pre('findOneAndDelete', function(next) {
+//     console.log(this.thoughts);
+//     this.thoughts.forEach(elem => 
+//         Thought.deleteOne({_id: elem._id})
+//     );
+//     next();
+// });
 
 
 // MONGOOSE MODEL
