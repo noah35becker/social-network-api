@@ -1,7 +1,6 @@
 
 // IMPORTS
 const {Schema, model} = require('mongoose');
-const Thought = require('./Thought');
 
 
 // SCHEMA

@@ -67,14 +67,11 @@ const thoughtController = {
         try{
             const dbThoughtData = await Thought.create(body);
 
-            const test = await User.findOneAndUpdate(
+            await User.findOneAndUpdate(
                 {_id: body.user},
                 {$push: {thoughts: dbThoughtData._id}},
                 {new: true}
-            )
-                .populate({
-                    path: 'thoughts'
-                });
+            );
 
             res.json({
                 message: 'Thought successfully created',
