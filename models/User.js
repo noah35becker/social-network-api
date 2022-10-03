@@ -10,14 +10,15 @@ const UserSchema = new Schema(
             type: String,
             required: '`username` is required',  // custom err msg
             trim: true,
-            unique: true  // creates a 'unique index' for this field, i.e. not really validation per se
+            unique: true,  // creates a 'unique index' for this field, i.e. not really validation per se
+            lowercase: true  // convert to lowercase before saving
         },
         email: {
             type: String,
             required: '`email` is required',
             trim: true,
             unique: true,
-            lowercase: true,  // convert to lowercase before saving
+            lowercase: true,
             match: [/^[a-z0-9_\.]+@[a-z0-9\.]+\.[a-z]{2,3}$/i, '`email` is invalid']
         },
         thoughts: [
