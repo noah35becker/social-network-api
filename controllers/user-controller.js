@@ -185,7 +185,7 @@ const userController = {
                 return res.status(404).json({message: `No User found with an ID of ${params.friendId}`});
                 
             res.json({
-                message: 'Users are mutually added to each other\'s friends list',
+                message: 'Users are mutually added to each other\'s friends lists',
                 user1: dbUserData1,
                 user2: dbUserData2
             });
@@ -226,7 +226,7 @@ const userController = {
                 return res.status(404).json({message: `No User found with an ID of ${params.friendId}`});
                 
             res.json({
-                message: 'Users are mutually removed from each other\'s friends list',
+                message: 'Users are mutually removed from each other\'s friends lists',
                 user1: dbUserData1,
                 user2: dbUserData2
             });
