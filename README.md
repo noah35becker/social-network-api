@@ -13,7 +13,7 @@ This API uses MongoDB / Mongoose to manage a mock social network database. The d
 
 
 ## Video walkthrough
-[LinkGoesHere](LinkGoesHere)
+[https://www.youtube.com/watch?v=LE4tUzdftvU](https://www.youtube.com/watch?v=LE4tUzdftvU)
 
 
 <i><b>
@@ -67,7 +67,7 @@ The API exposes these routes:
 
 ## Directions for future development
 - The URLs of API calls could include <ins>sort queries</ins> for various parameters, e.g. sorting `Thought`s by `reactionCount` or by `createdAt`, sorting `User`s by `friendCount`, etc.
-- When a `User` is deleted, so are their associated `Thought`s. They're also removed from all other `User`s' friends lists. However, their `Reaction`s are left behind as artifacts in the database, now with a `user._id` of `null`. <ins>When a `User` is deleted, their `Reaction`s should also be purged from the system.</ins>
+- When a `User` is deleted, so are their associated `Thought`s. They're also removed from all other `User`s' friends lists. However, their `Reaction`s are left behind as artifacts in the database, now with a `user._id` of `null`. <ins>When a `User` is deleted, their `Reaction`s should also be purged from the database.</ins>
 
 
 
