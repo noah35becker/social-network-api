@@ -17,6 +17,7 @@ This API uses MongoDB / Mongoose to manage a mock social network database. The d
 
 
 <i><b>
+
 ## Table of contents
 - [Installation](#installation)
 - [Usage](#usage)
@@ -25,6 +26,7 @@ This API uses MongoDB / Mongoose to manage a mock social network database. The d
 - [License](#license)
 - [Contributing](#contributing)
 - [Questions](#questions)
+
 </i></b>
 
 

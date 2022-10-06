@@ -155,7 +155,7 @@ const userController = {
     },
 
 
-    // Add friends to each other's friends list
+    // Add friends to each other's friends lists
     async mutualAddFriends({params}, res){
         try{
             const dbUserData1 = await User.findOneAndUpdate(
@@ -196,7 +196,7 @@ const userController = {
     },
 
 
-    // Remove friends from each other's friends list
+    // Remove friends from each other's friends lists
     async mutualRemoveFriends({params}, res){
         try{
             const dbUserData1 = await User.findOneAndUpdate(
